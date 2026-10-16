@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mageshwari — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,800;1,6..96,500&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ===== Colours: film black, bleached leader, projector amber ===== */
+:root{--bg:#0f0d0b;--fg:#e9e2d0;--amber:#e8a623;--dim:#e9e2d0a8;--line:#e9e2d033;
+--serif:'Bodoni Moda','Didot',Georgia,serif;--mono:'Courier Prime','Courier New',monospace;
+--bar:clamp(30px,6vh,52px);--ease:cubic-bezier(.77,0,.18,1)}
+:root[data-theme=light]{--bg:#e6e1d2;--fg:#17130f;--amber:#9a5b00;--dim:#17130fa8;--line:#17130f33}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:var(--bar)}
+body{background:var(--bg);color:var(--fg);font:400 1.05rem/1.7 var(--serif);overflow-x:hidden;
+padding:var(--bar) 0;transition:background .01s}
+::selection{background:var(--amber);color:var(--bg)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.mono{font-family:var(--mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase}
+
+/* letterbox bars */
+.bar{position:fixed;left:0;right:0;height:var(--bar);background:#000;color:#e9e2d0;z-index:50;
+display:flex;align-items:center;justify-content:space-between;padding:0 clamp(12px,3vw,32px)}
+.bar.top{top:0}.bar.bot{bottom:0}
+:root[data-theme=light] .bar{background:#17130f}
+.bar .mono{font-size:.68rem}
+#tc{color:var(--amber);font-variant-numeric:tabular-nums}
+#mode{display:flex;align-items:center;gap:.6rem;font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:#e9e2d0;padding:.3rem 0}
+#mode i{width:34px;height:16px;border:1.5px solid #e9e2d0;border-radius:9px;position:relative}
+#mode i::after{content:"";position:absolute;top:2px;left:2px;width:9px;height:9px;border-radius:50%;background:#e8a623;transition:transform .5s var(--ease)}
+[data-theme=light] #mode i::after{transform:translateX(17px)}
+
+/* shutter (opening + theme switch) */
+.sh{position:fixed;left:0;right:0;height:50.1%;z-index:100;background:#000;display:flex;transition:transform 1s var(--ease);pointer-events:none}
+.sh.a{top:0;align-items:flex-end;transform:translateY(0)}
+.sh.b{bottom:0;align-items:flex-start;transform:translateY(0)}
+.sh span{font-family:var(--serif);font-weight:800;color:#e9e2d0;font-size:clamp(2.6rem,13vw,9rem);line-height:.9;letter-spacing:-.02em;padding:0 5vw;white-space:nowrap}
+.sh.a span{padding-bottom:.04em}.sh.b span{transform:translateY(-.9em);color:var(--amber);font-style:italic;font-weight:500}
+.sh.b span{position:relative;top:.9em;transform:none;line-height:.9;overflow:hidden}
+.sh.a span{overflow:hidden;height:.62em;display:block;line-height:.62}
+.open .sh.a{transform:translateY(-101%)}.open .sh.b{transform:translateY(101%)}
+.sh.idle{transition:none}
+.sh.closed{transform:none!important}
+#skip{position:fixed;right:clamp(12px,3vw,32px);bottom:calc(var(--bar) + 14px);z-index:120;color:#e9e2d0;border:1px solid #e9e2d0;padding:.45rem .9rem;transition:opacity .3s}
+#intro-done #skip,.open #skip{opacity:0;pointer-events:none}
+#countdown{position:fixed;left:50%;top:50%;translate:-50% -50%;z-index:110;font-family:var(--mono);color:var(--amber);font-size:.8rem;letter-spacing:.3em;opacity:1;transition:opacity .2s}
+.open #countdown{opacity:0}
+
+/* layout */
+section{padding:clamp(4.5rem,12vh,9rem) clamp(1.25rem,6vw,5rem);position:relative}
+.cap{font-family:var(--mono);font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);display:flex;gap:1rem;align-items:center;margin-bottom:1.5rem}
+.cap::after{content:"";height:1px;width:clamp(30px,10vw,120px);background:var(--amber)}
+h2{font-weight:800;font-size:clamp(2.2rem,9vw,5.2rem);line-height:.95;letter-spacing:-.02em;margin-bottom:2rem}
+h2 em{font-weight:500}
+.rise{opacity:0;transform:translateY(18px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.rise.in{opacity:1;transform:none}
+
+/* landing */
+#top{min-height:calc(100svh - var(--bar)*2);display:grid;grid-template-rows:auto 1fr auto;padding-top:2rem;padding-bottom:2rem;overflow:hidden}
+.reel{width:clamp(88px,18vw,150px);color:var(--fg);justify-self:end}
+.reel svg{width:100%;display:block;overflow:visible}
+.reel .spin{transform-origin:60px 60px;animation:spin 24s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+h1{font-weight:800;line-height:.82;letter-spacing:-.045em;font-size:clamp(3.6rem,21vw,15rem);align-self:center;margin:2rem 0 1rem -.04em;word-break:keep-all}
+h1 small{display:block;font:italic 500 clamp(1rem,3.6vw,1.8rem);letter-spacing:0;color:var(--amber);margin-top:1.4rem;line-height:1.3;max-width:26ch}
+.now{display:flex;flex-wrap:wrap;gap:1.5rem 3rem;justify-content:space-between;align-items:flex-end;border-top:1px solid var(--line);padding-top:1.2rem}
+.now p{max-width:34ch;color:var(--dim)}
+.now p b{font-family:var(--mono);font-weight:400;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);display:block}
+.btns{display:flex;gap:.8rem;flex-wrap:wrap}
+.btn{font-family:var(--mono);font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;padding:.85rem 1.4rem;border:1.5px solid var(--fg);text-decoration:none;display:inline-block;transition:background .35s var(--ease),color .35s var(--ease)}
+.btn.fill{background:var(--amber);border-color:var(--amber);color:#0f0d0b}
+.btn:hover{background:var(--fg);color:var(--bg)}
+
+/* about */
+.about{display:grid;gap:2rem;max-width:1100px}
+.about .txt p{margin-bottom:1.2rem;max-width:58ch;font-size:1.12rem}
+.about .txt p:first-child::first-letter{font-weight:800;font-size:4.2em;float:left;line-height:.78;padding:.06em .1em 0 0;color:var(--amber)}
+.slate{border:2px solid var(--fg);font-family:var(--mono);font-size:.82rem;max-width:340px;transform:rotate(-2deg);align-self:start}
+.slate .st{height:26px;background:repeating-linear-gradient(115deg,var(--fg) 0 18px,var(--bg) 18px 36px);border-bottom:2px solid var(--fg)}
+.slate div+div{border-top:1px solid var(--fg)}.slate div{padding:.55rem .8rem;display:flex;justify-content:space-between;gap:1rem}
+.slate span{color:var(--dim)}
+@media(min-width:820px){.about{grid-template-columns:1.6fr 1fr;gap:5rem}.slate{margin-top:2rem}}
+
+/* skills: credit lines with dot leaders */
+.credits{max-width:760px;margin-left:auto}
+.cr{display:flex;align-items:baseline;gap:.6rem;padding:.55rem 0;font-size:clamp(1.15rem,3.4vw,1.6rem)}
+.cr::after{content:"";order:1;flex:1;border-bottom:2px dotted var(--line);transform:translateY(-.3em)}
+.cr span:first-child{order:0}.cr span:last-child{order:2;font-style:italic;color:var(--amber);font-size:.8em}
+.role{font-family:var(--mono);font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin:2rem 0 .3rem}
+
+/* journey: film strip */
+.strip{display:grid;gap:0;border-block:14px dashed var(--fg);border-block-style:dotted;padding:1.6rem 0;background:linear-gradient(var(--line),var(--line)) center/100% 1px no-repeat}
+.frame{padding:1.4rem clamp(1rem,3vw,2rem);border-left:2px solid var(--fg)}
+.frame:nth-child(2){margin-top:1.6rem}.frame:nth-child(3){margin-top:3.2rem}
+.frame h3{font-weight:800;font-size:clamp(1.6rem,5vw,2.4rem);line-height:1;margin-bottom:.8rem}
+.frame h3 i{font-weight:500;color:var(--amber)}
+.frame li{list-style:none;padding:.35rem 0;border-bottom:1px solid var(--line);max-width:36ch}
+@media(min-width:820px){.strip{grid-template-columns:repeat(3,1fr)}.frame:nth-child(2){margin-top:3rem}.frame:nth-child(3){margin-top:6rem}}
+
+/* beyond code */
+.sp{max-width:1000px}
+.sp ul{list-style:none;padding:0}
+.sp li{display:grid;grid-template-columns:minmax(7rem,1fr) 2fr;gap:1rem;padding:1rem 0;border-top:1px solid var(--line)}
+.sp li b{font-family:var(--mono);font-weight:400;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);padding-top:.35rem}
+.sp li span{font-size:1.2rem}
+
+/* contact */
+#hi{min-height:70svh;display:flex;flex-direction:column;justify-content:center}
+.big a{display:block;font-weight:800;font-size:clamp(1.5rem,7.4vw,4.2rem);line-height:1.12;letter-spacing:-.02em;text-decoration:none;border-bottom:1px solid var(--line);padding:.4rem 0;overflow-wrap:anywhere;transition:color .3s,padding-left .5s var(--ease)}
+.big a:hover,.big a:focus-visible{color:var(--amber);padding-left:1rem}
+.big a small{font:400 .78rem var(--mono);letter-spacing:.14em;text-transform:uppercase;display:block;color:var(--dim)}
+footer{padding:3rem clamp(1.25rem,6vw,5rem) 5rem;text-align:center}
+#fin{font:italic 500 clamp(2rem,8vw,4rem)/1 var(--serif);cursor:pointer;color:var(--fg)}
+
+/* easter egg: clapperboard */
+#clap{position:fixed;inset:0;z-index:150;background:#000d;display:grid;place-items:center;opacity:0;pointer-events:none;transition:opacity .3s}
+#clap.on{opacity:1;pointer-events:auto}
+.cb{width:min(86vw,420px);background:#111;border:3px solid #e9e2d0;color:#e9e2d0;font-family:var(--mono)}
+.cb .arm{height:38px;background:repeating-linear-gradient(115deg,#e9e2d0 0 22px,#111 22px 44px);transform-origin:0 100%;transform:rotate(-24deg);border-bottom:3px solid #e9e2d0;transition:transform .12s ease-in}
+#clap.on .arm{animation:snap 1s .15s both}
+@keyframes snap{0%{transform:rotate(-24deg)}30%{transform:rotate(-24deg)}40%,100%{transform:rotate(0)}}
+.cb p{padding:.7rem 1rem;border-top:1px solid #e9e2d055;display:flex;justify-content:space-between;font-size:.85rem}
+.cb p:first-of-type{border-top:0}.cb strong{color:#e8a623;font-weight:700}
+.cb button{display:block;width:100%;padding:.8rem;border-top:3px solid #e9e2d0;color:#e8a623;font-family:var(--mono);letter-spacing:.14em;text-transform:uppercase}
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}html{scroll-behavior:auto}.rise{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<div class="bar top"><span class="mono">Mageshwari &middot; A Portfolio</span>
+<button id="mode" aria-label="Switch between night show and matinee"><span id="modelabel">Night show</span><i></i></button></div>
+<div class="bar bot"><span class="mono" id="tc">00:00:00:00</span><span class="mono" id="reel">Reel 1 of 6</span></div>
+
+<!-- opening: shutter split -->
+<div class="sh a" id="sa" aria-hidden="true"><span>Mage&shy;shwari</span></div>
+<div class="sh b" id="sb" aria-hidden="true"><span>Mageshwari</span></div>
+<div id="countdown" aria-hidden="true">ROLLING</div>
+<button id="skip" class="mono">Skip</button>
+
+<main>
+<section id="top">
+  <div class="reel" aria-hidden="true">
+    <!-- monogram: M inside a film reel -->
+    <svg viewBox="0 0 120 120"><g class="spin" fill="none" stroke="currentColor" stroke-width="3">
+      <circle cx="60" cy="60" r="56"/><circle cx="60" cy="60" r="46" stroke-width="1"/>
+      <g fill="currentColor" stroke="none"><circle cx="60" cy="14" r="7" fill="var(--bg)" stroke="currentColor" stroke-width="3"/><circle cx="60" cy="106" r="7" fill="var(--bg)" stroke="currentColor" stroke-width="3"/><circle cx="14" cy="60" r="7" fill="var(--bg)" stroke="currentColor" stroke-width="3"/><circle cx="106" cy="60" r="7" fill="var(--bg)" stroke="currentColor" stroke-width="3"/></g></g>
+      <text x="60" y="77" text-anchor="middle" font-family="Bodoni Moda,serif" font-weight="800" font-size="52" fill="var(--amber)">M</text></svg>
+  </div>
+  <h1><span class="rise in">Mageshwari</span>
+    <!-- EDIT: tagline in your own words -->
+    <small>Learning to build things on the web, one scene at a time.</small></h1>
+  <div class="now">
+    <!-- EDIT: what you are doing right now -->
+    <p><b>Currently</b>First year B.Tech IT, learning HTML, CSS and JavaScript by building small things that actually run.</p>
+    <div class="btns"><a class="btn fill" href="#about">Explore</a><a class="btn" href="#hi">Say hi</a></div>
+  </div>
+</section>
+
+<section id="about" data-reel="2">
+  <div class="cap">Written by</div>
+  <h2 class="rise">The story <em>so far</em></h2>
+  <div class="about">
+    <div class="txt rise">
+      <!-- EDIT: replace with your real story from your Me-Map answers -->
+      <p>I'm Mageshwari, and I'm in my first year of B.Tech in Information Technology. A few months in, I'm still at the stage where every program that finally runs feels like a small win.</p>
+      <p>I like understanding why something works, not only copying it until it does. That's why I'd rather build one small thing properly than ten things halfway.</p>
+      <p>This site is one of those things. I wanted it to look like something I'd designed, not something I'd downloaded.</p>
+    </div>
+    <div class="slate rise" aria-label="Quick facts">
+      <div class="st"></div>
+      <!-- EDIT: facts -->
+      <div><span>Name</span>Mageshwari</div><div><span>Studying</span>B.Tech IT</div><div><span>Year</span>First</div><div><span>Take</span>Always a rewrite</div>
+    </div>
+  </div>
+</section>
+
+<section id="skills" data-reel="3">
+  <div class="cap">Starring</div>
+  <h2 class="rise">What I <em>can do</em></h2>
+  <div class="credits rise">
+    <!-- EDIT: levels are honest words: Learning / Comfortable -->
+    <div class="role">Front of house</div>
+    <div class="cr"><span>HTML</span><span>Comfortable</span></div>
+    <div class="cr"><span>CSS</span><span>Comfortable</span></div>
+    <div class="cr"><span>JavaScript</span><span>Learning</span></div>
+    <div class="role">Behind the scenes</div>
+    <div class="cr"><span>Python</span><span>Learning</span></div>
+    <div class="cr"><span>C programming</span><span>Learning</span></div>
+    <div class="cr"><span>Git and GitHub</span><span>Learning</span></div>
+    <div class="role">Supporting cast</div>
+    <div class="cr"><span>Asking good questions</span><span>Comfortable</span></div>
+  </div>
+</section>
+
+<section id="journey" data-reel="4">
+  <div class="cap">Three reels</div>
+  <h2 class="rise">The <em>journey</em></h2>
+  <div class="strip rise">
+    <!-- EDIT: your real projects and goals -->
+    <div class="frame"><h3>Made</h3><ul><li>This portfolio site</li><li>Small programs from my first-year labs</li></ul></div>
+    <div class="frame"><h3><i>Learning</i></h3><ul><li>JavaScript, properly</li><li>Data structures in C</li><li>Using Git without fear</li></ul></div>
+    <div class="frame"><h3>Want to <i>build</i></h3><ul><li>A small app that solves a real problem on campus</li><li>Something I can show a stranger and they get it</li></ul></div>
+  </div>
+</section>
+
+<section id="beyond" data-reel="5">
+  <div class="cap">Special thanks</div>
+  <h2 class="rise">Beyond <em>code</em></h2>
+  <div class="sp rise">
+    <!-- EDIT: your real hobbies and fun facts -->
+    <ul>
+      <li><b>Hobbies</b><span>Add what you do when the laptop is closed.</span></li>
+      <li><b>On repeat</b><span>A song, a film or a show you keep returning to.</span></li>
+      <li><b>Fun fact</b><span>One true, slightly odd thing about you.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="hi" data-reel="6">
+  <div class="cap">Casting call</div>
+  <h2 class="rise">Say <em>hi</em></h2>
+  <div class="big rise">
+    <!-- EDIT: your real links -->
+    <a href="mailto:you@example.com"><small>Email</small>you@example.com</a>
+    <a href="https://www.linkedin.com/in/your-name" target="_blank" rel="noopener"><small>LinkedIn</small>/in/your-name</a>
+    <a href="https://github.com/your-name" target="_blank" rel="noopener"><small>GitHub</small>/your-name</a>
+  </div>
+</section>
+</main>
+
+<footer><button id="fin" aria-label="The end">Fin.</button><p class="mono" style="margin-top:1rem;color:var(--dim)">Designed and built by Mageshwari</p></footer>
+
+<div id="clap" role="dialog" aria-label="Easter egg"><div class="cb"><div class="arm"></div>
+<p><span>Scene</span><strong>Portfolio</strong></p><p><span>Take</span><strong>1,000th refresh</strong></p><p><span>Director</span><strong>Mageshwari</strong></p><p><span>Notes</span><strong>That's a wrap.</strong></p><button id="clapx">Cut</button></div></div>
+
+<script>
+(function(){
+var d=document,root=d.documentElement,$=function(s){return d.querySelector(s)};
+var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+var sa=$('#sa'),sb=$('#sb'),body=d.body;
+
+/* opening: plays once per session, under 2.5s */
+var seen=false;try{seen=sessionStorage.getItem('opened')}catch(e){}
+function openUp(){body.classList.add('open');setTimeout(function(){[sa,sb,$('#countdown'),$('#skip')].forEach(function(n){n.style.display='none'})},1100);try{sessionStorage.setItem('opened','1')}catch(e){}}
+if(seen||reduce){[sa,sb,$('#countdown'),$('#skip')].forEach(function(n){n.style.display='none'})}
+else{var t=setTimeout(openUp,1400);$('#skip').addEventListener('click',function(){clearTimeout(t);openUp()})}
+
+/* theme: night show / matinee, switched behind a closing shutter */
+function setTheme(m){root.dataset.theme=m;$('#modelabel').textContent=m==='dark'?'Night show':'Matinee';try{localStorage.setItem('theme',m)}catch(e){}}
+var saved=null;try{saved=localStorage.getItem('theme')}catch(e){}
+if(saved)setTheme(saved);else if(matchMedia('(prefers-color-scheme: light)').matches)setTheme('light');
+$('#mode').addEventListener('click',function(){
+  var next=root.dataset.theme==='dark'?'light':'dark';
+  if(reduce){setTheme(next);return}
+  [sa,sb].forEach(function(n){n.style.display='flex';n.style.transition='none'});
+  body.classList.remove('open');void sa.offsetWidth;
+  /* shutters begin open, then close, swap, open again */
+  sa.style.transform='translateY(-101%)';sb.style.transform='translateY(101%)';void sa.offsetWidth;
+  [sa,sb].forEach(function(n){n.style.transition='transform .45s cubic-bezier(.77,0,.18,1)';n.style.transform='translateY(0)'});
+  setTimeout(function(){setTheme(next);sa.style.transform='translateY(-101%)';sb.style.transform='translateY(101%)'},520);
+  setTimeout(function(){[sa,sb].forEach(function(n){n.style.display='none';n.style.transition='';n.style.transform=''});body.classList.add('open')},1050);
+});
+
+/* reveal on scroll + reel counter */
+if('IntersectionObserver' in window){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.15});
+  d.querySelectorAll('.rise').forEach(function(n){io.observe(n)});
+  var io2=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)$('#reel').textContent='Reel '+(e.target.dataset.reel||1)+' of 6'})},{threshold:.5});
+  d.querySelectorAll('section').forEach(function(s){io2.observe(s)});
+}else d.querySelectorAll('.rise').forEach(function(n){n.classList.add('in')});
+
+/* timecode: runs with the page like a film counter */
+var t0=Date.now(),tc=$('#tc');
+function p(n){return (n<10?'0':'')+n}
+if(!reduce)setInterval(function(){var ms=Date.now()-t0,s=Math.floor(ms/1000);tc.textContent=p(Math.floor(s/3600))+':'+p(Math.floor(s/60)%60)+':'+p(s%60)+':'+p(Math.floor(ms%1000/41.7))},83);
+
+/* easter egg: type "action", or tap "Fin." five times */
+var clap=$('#clap'),buf='',taps=0;
+function roll(){clap.classList.remove('on');void clap.offsetWidth;clap.classList.add('on');$('#clapx').focus()}
+d.addEventListener('keydown',function(e){if(e.key==='Escape')clap.classList.remove('on');buf=(buf+e.key.toLowerCase()).slice(-6);if(buf==='action')roll()});
+$('#fin').addEventListener('click',function(){taps++;clearTimeout(roll.t);roll.t=setTimeout(function(){taps=0},2000);if(taps>=5){taps=0;roll()}});
+$('#clapx').addEventListener('click',function(){clap.classList.remove('on')});
+})();
+</script>
+</body>
+</html>
